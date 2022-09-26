@@ -13,6 +13,15 @@ services:
       - ./api:/var/www/html
     networks:
       - app-network
+  preconfig-laravel:
+    image: 'apache-php-api'
+    entrypoint: .docker/entrypoint.sh
+    depends_on:
+      - apache-php
+    volumes:
+      - ./api:/var/www/html
+    networks:
+      - app-network
   node:
     build:
       context: front-end
