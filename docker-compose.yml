@@ -1,0 +1,30 @@
+version: '3'
+services:
+  apache-php:
+    build:
+      context: api
+      dockerfile: .docker/Dockerfile
+    image: 'apache-php-api'
+    ports:
+      - 4000:80
+    depends_on:
+      - node
+    volumes:
+      - ./api:/var/www/html
+    networks:
+      - app-network
+  node:
+    build:
+      context: front-end
+      dockerfile: .docker/Dockerfile
+    entrypoint: .docker/entrypoint.sh
+    container_name: front-end_landing-page_container
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./front-end:/home/node/app
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
